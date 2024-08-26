@@ -1,4 +1,4 @@
-import MainLayout from "./Layout/mainLayout"
+import MainLayout from "./Layout/MainLayout"
 
 const App : React.FC = () =>{
 
