@@ -8,11 +8,9 @@ import {
 } from '@ant-design/icons';
 import { Button, Layout, Menu, theme } from 'antd';
 import { Routes, Route, useNavigate } from "react-router-dom";
-import BackgroundImage from "../../public/discussify-bg.avif";
 import HomePage from "../pages/HomePage";
 import SignUp from "../pages/authPages/SignUp";
 import SignIn from '../pages/authPages/Login';
-
 const { Header, Sider} = Layout;
 
 const MainLayout: React.FC = () => {
@@ -38,10 +36,10 @@ const MainLayout: React.FC = () => {
   // }, [isAuthenticated, navigate]);
 
   return (
-    <Layout style={isAuthenticated ? { height: "100vh" } : { height: "95vh "}}>
+    <Layout style={{height:"100vh"}}>
       {isAuthenticated && (
         <Sider trigger={null} collapsible collapsed={collapsed}>
-          <div className="demo-logo-vertical" />
+          {/* <div className="demo-logo-vertical" /> */}
           <Menu
             theme="dark"
             mode="vertical"
@@ -67,7 +65,7 @@ const MainLayout: React.FC = () => {
         </Sider>
       )}
       <Layout>
-        <Header style={{padding: 0, background: colorBgContainer ,margin: 0}}>
+        <Header style={isAuthenticated ? {padding: 0, background: colorBgContainer, margin: 0}: {height:"0px"}}>
           {isAuthenticated && (
             <Button
               type="text"
@@ -85,15 +83,14 @@ const MainLayout: React.FC = () => {
           style={isAuthenticated ? {
             margin: '24px 16px',
             padding: 24,
-            background: colorBgContainer,
+            backgroundColor:colorBgContainer,
             borderRadius: borderRadiusLG,
-          } : {backgroundColor: "#ffffff",margin:'0px'}}
+          } : {backgroundColor: "transparent", margin: '0px',padding: 0}}
         >
           <Routes>
             <Route path="/*" element={<SignUp />} />
             <Route path="/home" element={<HomePage />} />
             <Route path="/login" element={<SignIn />} />
-            
           </Routes>
         </Layout>
       </Layout>

@@ -1,6 +1,6 @@
-const SecondaryHeading : React.FC<{text:string}> = ({text}) => {
+const SecondaryHeading : React.FC<{text:string,styles:React.CSSProperties}> = ({text,styles}) => {
     return (
-        <h3>{text}</h3>
+        <h3 style={styles}>{text}</h3>
     )
 }
 

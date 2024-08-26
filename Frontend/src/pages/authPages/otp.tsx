@@ -19,7 +19,7 @@ const FillOtp: React.FC = () => {
   return (
     <Flex gap="middle"  vertical>
       <div style={{display:"flex",justifyContent:"center",alignItems:"center",fontSize:"20px"}}>
-        <SecondaryHeading text="Enter OTP"/>
+        <SecondaryHeading styles={{color:"#fff",fontWeight:"bold"}} text="Enter OTP"/>
       </div>
       <Input.OTP formatter={(str) => str.toUpperCase()} {...sharedProps} />
     </Flex>
