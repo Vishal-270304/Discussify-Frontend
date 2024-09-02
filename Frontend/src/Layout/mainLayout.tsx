@@ -1,4 +1,5 @@
-import React, { useState , useEffect} from 'react';
+// MainLayout.tsx
+import React, { useState} from 'react';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -7,75 +8,46 @@ import {
   VideoCameraOutlined,
 } from '@ant-design/icons';
 import { Button, Layout, Menu, theme } from 'antd';
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import HomePage from "../pages/HomePage";
 import SignUp from "../pages/authPages/SignUp";
 import SignIn from '../pages/authPages/Login';
-const { Header, Sider} = Layout;
+import useAuthListener from '../utils/AuthListener'; 
+
+const { Header, Sider } = Layout;
 
 const MainLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false); 
-
-  const navigate = useNavigate();
+  const isAuthenticated = useAuthListener(); 
 
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-
-  //Will use this at the time of api integeration
-
-  // useEffect(() => {
-  //   if (isAuthenticated) {
-  //     navigate('/home');
-  //   }
-  //   else{
-  //     navigate('/signup');
-  //   }
-  // }, [isAuthenticated, navigate]);
-
   return (
-    <Layout style={{height:"100vh"}}>
+    <Layout style={{ height: "100vh" }}>
       {isAuthenticated && (
         <Sider trigger={null} collapsible collapsed={collapsed}>
-          {/* <div className="demo-logo-vertical" /> */}
           <Menu
             theme="dark"
             mode="vertical"
             defaultSelectedKeys={['1']}
             items={[
-              {
-                key: '1',
-                icon: <UserOutlined />,
-                label: 'nav 1',
-              },
-              {
-                key: '2',
-                icon: <VideoCameraOutlined />,
-                label: 'nav 2',
-              },
-              {
-                key: '3',
-                icon: <UploadOutlined />,
-                label: 'nav 3',
-              },
+              { key: '1', icon: <UserOutlined />, label: 'nav 1' },
+              { key: '2', icon: <VideoCameraOutlined />, label: 'nav 2' },
+              { key: '3', icon: <UploadOutlined />, label: 'nav 3' },
             ]}
           />
         </Sider>
       )}
       <Layout>
-        <Header style={isAuthenticated ? {padding: 0, background: colorBgContainer, margin: 0}: {height:"0px"}}>
+        <Header style={isAuthenticated ? { padding: 0, background: colorBgContainer, margin: 0 } : { height: "0px" }}>
           {isAuthenticated && (
             <Button
               type="text"
               icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
               onClick={() => setCollapsed(!collapsed)}
-              style={{
-                fontSize: '16px',
-                width: 64,
-                height: 64,
-              }}
+              style={{ fontSize: '16px', width: 64, height: 64 }}
             />
           )}
         </Header>
@@ -83,9 +55,9 @@ const MainLayout: React.FC = () => {
           style={isAuthenticated ? {
             margin: '24px 16px',
             padding: 24,
-            backgroundColor:colorBgContainer,
+            backgroundColor: colorBgContainer,
             borderRadius: borderRadiusLG,
-          } : {backgroundColor: "transparent", margin: '0px',padding: 0}}
+          } : { backgroundColor: "transparent", margin: '0px', padding: 0 }}
         >
           <Routes>
             <Route path="/*" element={<SignUp />} />

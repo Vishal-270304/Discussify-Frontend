@@ -7,7 +7,8 @@ export interface SignUpInterface{
 }
 
 export interface OtpInterface{
-    otp:string;
+    email:string;
+    enteredOtp:string;
 }
 
 export interface LoginInterface{

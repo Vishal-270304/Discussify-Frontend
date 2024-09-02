@@ -28,7 +28,6 @@ const SignUp: React.FC = () => {
     sendUserInfo(userInfo)
       .then(() => {
         setIsFormSubmitted(true);
-        // localStorage.setItem("userInfo", JSON.stringify(userInfo.email));
       })
       .catch((error) => {
         console.error("Error submitting form:", error);
@@ -74,7 +73,7 @@ const SignUp: React.FC = () => {
               borderRadius: "10px",
             }}
           >
-            <FillOtp />
+            <FillOtp email={email} />
           </div>
         </div>
       ) : (
