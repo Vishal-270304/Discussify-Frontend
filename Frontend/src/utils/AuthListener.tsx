@@ -1,15 +1,26 @@
-// useAuthListener.ts
-import { useEffect, useState } from 'react';
+// AuthGuard.tsx
+import React, { ReactNode, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const useAuthListener = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+interface AuthGuardProps {
+  children: ReactNode;
+}
+
+const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const verificaationToken = localStorage.getItem('token');
-    setIsAuthenticated(!!verificaationToken);
-  }, []);
+    const verificationToken = localStorage.getItem('token');
 
-  return isAuthenticated;
+    if (!verificationToken) {
+      navigate('/signup');
+    }else{
+      navigate("/home")
+    }
+  }, [navigate]);
+
+  // Render children only if authenticated
+  return <>{localStorage.getItem('token') ? children : null}</>;
 };
 
-export default useAuthListener;
+export default AuthGuard;

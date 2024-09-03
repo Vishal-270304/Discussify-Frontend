@@ -1,5 +1,5 @@
 // MainLayout.tsx
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -8,25 +8,23 @@ import {
   VideoCameraOutlined,
 } from '@ant-design/icons';
 import { Button, Layout, Menu, theme } from 'antd';
-import { Routes, Route } from "react-router-dom";
-import HomePage from "../pages/HomePage";
-import SignUp from "../pages/authPages/SignUp";
+import { Routes, Route } from 'react-router-dom';
+import HomePage from '../pages/HomePage';
+import SignUp from '../pages/authPages/SignUp';
 import SignIn from '../pages/authPages/Login';
-import useAuthListener from '../utils/AuthListener'; 
+import AuthGuard from '../utils/AuthListener'; // Import the AuthGuard component
 
 const { Header, Sider } = Layout;
 
 const MainLayout: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const isAuthenticated = useAuthListener(); 
-
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
   return (
-    <Layout style={{ height: "100vh" }}>
-      {isAuthenticated && (
+    <Layout style={{ height: '100vh' }}>
+      <AuthGuard>
         <Sider trigger={null} collapsible collapsed={collapsed}>
           <Menu
             theme="dark"
@@ -39,33 +37,40 @@ const MainLayout: React.FC = () => {
             ]}
           />
         </Sider>
-      )}
-      <Layout>
-        <Header style={isAuthenticated ? { padding: 0, background: colorBgContainer, margin: 0 } : { height: "0px" }}>
-          {isAuthenticated && (
+        <Layout>
+          <Header
+            style={{
+              padding: 0,
+              background: colorBgContainer,
+              margin: 0,
+            }}
+          >
             <Button
               type="text"
               icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
               onClick={() => setCollapsed(!collapsed)}
               style={{ fontSize: '16px', width: 64, height: 64 }}
             />
-          )}
-        </Header>
-        <Layout
-          style={isAuthenticated ? {
-            margin: '24px 16px',
-            padding: 24,
-            backgroundColor: colorBgContainer,
-            borderRadius: borderRadiusLG,
-          } : { backgroundColor: "transparent", margin: '0px', padding: 0 }}
-        >
-          <Routes>
-            <Route path="/*" element={<SignUp />} />
-            <Route path="/home" element={<HomePage />} />
-            <Route path="/login" element={<SignIn />} />
-          </Routes>
+          </Header>
+          <Layout
+            style={{
+              margin: '24px 16px',
+              padding: 24,
+              backgroundColor: colorBgContainer,
+              borderRadius: borderRadiusLG,
+            }}
+          >
+            <Routes>
+              <Route path="/home" element={<HomePage />} />
+              <Route path="/login" element={<SignIn />} />
+            </Routes>
+          </Layout>
         </Layout>
-      </Layout>
+      </AuthGuard>
+      <Routes>
+        {/* Ensure SignUp is outside the AuthGuard so unauthenticated users can access it */}
+        <Route path="/signup" element={<SignUp />} />
+      </Routes>
     </Layout>
   );
 };
